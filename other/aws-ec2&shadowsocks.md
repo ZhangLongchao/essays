@@ -18,14 +18,14 @@
 
 * 需要能够完成美元支付的信用卡（注册需要支付 1 美元费用，一年期满后没有超限使用是会退还），一般标有 visa 或者 mastercard 标的都可以（包括双标信用卡），银联信用卡虽然可以绑定，但是不能支付。我使用的是 visa 卡。
 
-#### 创建账号
+#### 1.1.1 创建账号
 
 * 注册：进入 [aws官网](https://aws.amazon.com/cn/) 右上角黄色 "注册按钮" 填写个人信息完成注册。
 
 * 登陆：注册完成后点击登陆按钮进行登陆。![image](https://user-images.githubusercontent.com/69457959/174732844-8ddafb2d-1ff7-4b8c-a6df-8f85ee29b3a3.png)
 
 
-#### 创建实例
+#### 1.1.2 创建实例
 
 * 选择地区：创建实例时候根据需求选择对应地区（没有特殊需求的就选亚太地区）。![1655793558710](https://user-images.githubusercontent.com/69457959/174733231-62f26ce9-ce26-4072-ba6b-f4505fcf1c40.png)
 
@@ -39,10 +39,49 @@
 
 * 根据自己的操作系统[下载](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)并安装。
 
-## 服务搭建（基于Ubuntu18）
+## 2. 服务搭建（基于Ubuntu18）
 
 * putty 连接：因为 putty 仅支持 .ppk 为后缀的密钥对，如果密钥对是 .pem 格式需要先使用 puttygen.exe 将密钥转为 .ppk 格式。（在加载 .pem 时候文件名后缀选择为所有）![image](https://user-images.githubusercontent.com/69457959/174736478-9de55c53-e50b-4448-a665-a2c7999f73ee.png)![image](https://user-images.githubusercontent.com/69457959/174736860-f720a67b-3ab4-4452-90e0-3134a8840882.png)![image](https://user-images.githubusercontent.com/69457959/174737285-5a495192-09d4-4e2e-ac25-dfcff833e96e.png)
 
-* 创建Shadowsocks服务端：
+* 安装 Shadowsocks 服务：安装完成后输入 ssserver --help 可以检查是否安装成功。
 
-## Windows&Android 连接测试
+    ```linux
+    ## 切换为 root 用户
+    sudo -i
+    ## 安装服务
+    sudo yum install -y python-setuptools
+    sudo easy_install pip
+    sudo pip install shadowsocks
+    ```
+* 启动 Shadowsocks 服务：在 /etc/shadowsocks 创建服务配置文件 config.json 然后输入命令启动。
+
+    ```
+    #config.json
+    {
+
+    "server": "0.0.0.0",
+    "server_port": 连接时的服务端口,
+    "local_address": "127.0.0.1",
+    "local_port": 1080,
+    "password": "zhanglc9527",
+    "timeout": 3000,
+    "method": "aes-256-cfb",
+    "fast_open": false,
+    "workers": 1
+    }
+    #启动命令
+    sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d start
+    #停止命令
+    sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d stop
+    #重启命令
+    sudo /usr/local/bin/ssserver -c /etc/shadowsocks/config.json -d restart
+    ```
+
+## 3. Windows&Android 连接测试
+
+* 根据当前自己系统版本[下载客户端](https://github.com/shadowsocks)
+
+* Android 端配置：![image](https://user-images.githubusercontent.com/69457959/174740564-791adcad-37bc-45e5-bb32-cd85b203f428.png)
+
+
+
